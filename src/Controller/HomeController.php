@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Repository\TeamRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
@@ -16,4 +18,16 @@ class HomeController extends AbstractController
             'controller_name' => 'HomeController',
         ]);
     }
+
+    /**
+     * @Route("/team", name="team")
+     * @return Response
+     */
+
+    public function showTeam(TeamRepository $teamRepository):Response
+    {
+        $team=$teamRepository->findAll();
+        return $this->render('home/team.html.twig', ['membres'=>$team]);
+    }
+
 }
