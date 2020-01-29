@@ -1,0 +1,67 @@
+easy_admin:
+    site_name: 'Wild Circus'
+    design:
+        menu:
+          - { label: 'Clients'}
+          - { entity: 'Users', icon: 'user'}
+          - { label: 'Evenements'}
+          - { entity: 'Events'}
+          - { entity: 'Inscription'}
+          - { label: 'Retour au site', route: 'home', icon: 'reply'}
+    entities:
+        Events:
+          translation_domain: 'messages'
+          class: App\Entity\Events
+          label: 'Evenements'
+          list:
+               actions: ['edit', 'search', 'delete', 'show']
+          form:
+            title: 'Ajouter  un évenemnt'
+            fields:
+              - { property: 'name', type: 'text'}
+              - { property: 'price', number: '%0.02f €'}
+              - { property: 'description', type: 'text'}
+              - { property: 'location', type: 'text'}
+
+          edit:
+              title: 'Editer cet évenement'
+              fields:
+                - { property: 'name', type: 'text'}
+                - { property: 'price', number: '%0.02f €'}
+                - { property: 'description', type: 'text'}
+                - { property: 'location', type: 'text'}
+        Users:
+           translation_domain: 'messages'
+           class: App\Entity\Users
+           label: 'Clients'
+           list:
+                actions: ['search', 'delete']
+           form:
+             title: 'Ajouter  un client'
+             fields:
+               - { property: 'firstname', type: 'text'}
+               - { property: 'lastname', type: 'text'}
+               - { property: 'address', type: 'text'}
+               - { property: 'code', type: 'text'}
+               - { property: 'city', type: 'text'}
+               - { property: 'email', type: 'email'}
+           edit:
+                title: 'Editer le client'
+                fields:
+                  - { property: 'firstname', type: 'text'}
+                  - { property: 'lastname', type: 'text'}
+                  - { property: 'email', type: 'email'}
+
+        Inscription:
+            translation_domain: 'messages'
+            class: App\Entity\Inscription
+            label: 'Inscription'
+            list:
+                actions: ['search', 'delete']
+
+
+#       - App\Entity\Events
+#       - App\Entity\Users
+#       - App\Entity\Inscription
+
+
