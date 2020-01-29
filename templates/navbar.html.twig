@@ -12,7 +12,7 @@
                     <a class="nav-link" href="{{ path('team') }}"> <i class="fa fa-users" aria-hidden="true"></i> L'équipe</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link mt-4" href="{{ path('event') }}">Evenements</a>
+                    <a class="nav-link" href="{{ path('event') }}"><i class="fa fa-newspaper-o" aria-hidden="true"></i>Evenements</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href=""><i class="fa fa-fw fa-envelope"></i> Contact</a>
@@ -26,7 +26,7 @@
                 </li>
                 {% elseif app.user %}
                     <li class="nav-item">
-                        <a class="nav-link" href=""><i class="fa fa-user"></i>  Compte</a>
+                        <a class="nav-link" href="{{ path('profil') }}"><i class="fa fa-user"></i>  Compte</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_logout') }}"><i class="fa fa-users"></i>  Déconnexion</a>
