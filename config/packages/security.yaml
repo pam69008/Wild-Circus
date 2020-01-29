@@ -1,4 +1,7 @@
 security:
+    role_hierarchy:
+        ROLE_SUBSCRIBER: IS_AUTHENTICATED_ANONYMOUSLY
+        ROLE_ADMIN:  ROLE_SUBSCRIBER
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         my_provider:
@@ -36,5 +39,5 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
           - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+          - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }

@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Evenement{% endblock %}
+
+{% block body %}
+    <div class="container-fluid mb-4">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <div class="row py-3">
+                            <div class="col-md-12">
+                                <h4 style="text-align: center">Nos différentes représentations</h4>
+                                <div class="divider"></div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+
+                            {% for event in events %}
+                                <div class="col-md-3">
+                                    <div class="card mt-2">
+{#                                        <div class="card-img-top mt-2 ml-5"><img#}
+{#                                                    src="{{ ('images/boutique/'~boilie.imageName) | imagine_filter('picture') }}"#}
+{#                                                    style="width: 50%">#}
+{#                                        </div>#}
+                                        <div class="card-body">
+                                            <h5>{{ event.name }}</h5>
+                                            <h6>{{ event.price }} € </h6>
+                                            <button type="button" class="btn btn-dark mt-2" data-toggle="modal"
+                                                    data-target="#prout{{ event.id }}">
+                                                Voir plus
+                                            </button>
+                                            <a href="{{ path('card_add', {'id': event.id}) }}">
+                                                <button type="button" class="btn btn-outline-success btn-block btn-sm mt-2">
+                                                    Reserver
+                                                </button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal" id="prout{{ event.id }}" tabindex="-1" role="dialog"
+                                     aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="">{{ event.name }}</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p class="pt-1 pb-2">{{ event.Description }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
