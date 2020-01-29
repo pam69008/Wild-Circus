@@ -71,9 +71,20 @@ class Users implements UserInterface
      */
     private $events;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Inscription", mappedBy="status")
+     */
+    private $inscriptions;
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
+        $this->inscriptions = new ArrayCollection();
+    }
+    public function __toString(): string
+    {
+        $completeName = $this->getFirstname() . " " . $this->getLastname();
+        return $completeName;
     }
 
     public function getId(): ?int
@@ -256,5 +267,36 @@ class Users implements UserInterface
     public function unserialize($serialized)
     {
         [$this->id, $this->email, $this->password] = unserialize($serialized, ['allowed_classes' => false]);
+    }
+
+    /**
+     * @return Collection|Inscription[]
+     */
+    public function getInscriptions(): Collection
+    {
+        return $this->inscriptions;
+    }
+
+    public function addInscription(Inscription $inscription): self
+    {
+        if (!$this->inscriptions->contains($inscription)) {
+            $this->inscriptions[] = $inscription;
+            $inscription->setStatus($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInscription(Inscription $inscription): self
+    {
+        if ($this->inscriptions->contains($inscription)) {
+            $this->inscriptions->removeElement($inscription);
+            // set the owning side to null (unless already changed)
+            if ($inscription->getStatus() === $this) {
+                $inscription->setStatus(null);
+            }
+        }
+
+        return $this;
     }
 }
