@@ -21,11 +21,11 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class)
-            ->add('firstname', TextType::class)
-            ->add('lastname', TextType::class)
-            ->add('address', TextType::class)
-            ->add('code', TextType::class)
-            ->add('city', TextType::class)
+            ->add('firstname', TextType::class, array('label'=>'Prénom:'))
+            ->add('lastname', TextType::class, array('label'=>'Nom:'))
+            ->add('address', TextType::class, array('label'=> 'Adresse:'))
+            ->add('code', TextType::class, array('label'=> 'Code-Postal:'))
+            ->add('city', TextType::class, array('label'=>'Ville:'))
             ->add('password', RepeatedType::class, array(
                 'type' => PasswordType::class,
                 'first_options'  => array('label' => 'Mot de passe'),
