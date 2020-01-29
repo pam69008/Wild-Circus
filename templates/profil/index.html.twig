@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProfilController!{% endblock %}
+
+{% block body %}
+{{ dump() }}
+
+    <div class="container-fluid">
+
+                <h3 class="text-center">{{ user.firstname }} {{ user.lastname }}</h3>
+                <h6 class="text-center p-2">Email: {{user.email}}</h6>
+                <h6 class="text-center p-2">Adresse: {{ user.address }} {{ user.code }} {{ user.city }}</h6>
+    </div>
+    <hr class="w-75 bg-dark">
+
+    <div class="container">
+        <h3 class="text-center"> Mon historique de réservation</h1>
+
+        <table>
+
+
+        </table>
+
+    </div>
+{% endblock %}
