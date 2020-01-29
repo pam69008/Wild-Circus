@@ -1,0 +1,21 @@
+@import "~bootstrap/scss/bootstrap";
+
+body {
+    background-color: whitesmoke;
+}
+
+h2 {
+    font-family: 'Bangers', cursive;
+}
+p {
+    font-family: 'Fjalla One', sans-serif;
+}
+
+a {
+    color: lightgrey;
+}
+
+a:focus, a:hover {
+    text-decoration: none;
+    color: black;
+}
