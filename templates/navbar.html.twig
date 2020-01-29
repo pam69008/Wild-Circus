@@ -12,12 +12,19 @@
                     <a class="nav-link" href="{{ path('team') }}"> <i class="fa fa-users" aria-hidden="true"></i> L'équipe</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href=""><i class="fa fa-shopping-cart"></i>Evenements</a>
+                    <a class="nav-link mt-4" href="{{ path('event') }}">Evenements</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href=""><i class="fa fa-fw fa-envelope"></i> Contact</a>
                 </li>
-                {% if app.user %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('card_index') }}"><i class="fa fa-shopping-cart"></i> Panier</a>
+                </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                <li class="nav-item mt-4    ">
+                    <a class="nav-link" href="{{ path ('easyadmin') }}">Administration</a>
+                </li>
+                {% elseif app.user %}
                     <li class="nav-item">
                         <a class="nav-link" href=""><i class="fa fa-user"></i>  Compte</a>
                     </li>
