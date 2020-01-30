@@ -117,9 +117,7 @@ class EventController extends AbstractController
             $inscription->setQuantity($quantity);
             $inscription->setEvent($event[0]);;
             $em->persist($inscription);
-
         }
-        $this->addFlash('succes', 'Validation confirmé');
         $em->flush();
         $this->get('session')->clear();
         return $this->redirectToRoute("profil");
