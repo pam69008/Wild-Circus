@@ -21,8 +21,8 @@
                     <a class="nav-link" href="{{ path('card_index') }}"><i class="fa fa-shopping-cart"></i> Panier</a>
                 </li>
                 {% if is_granted('ROLE_ADMIN') %}
-                <li class="nav-item mt-4    ">
-                    <a class="nav-link" href="{{ path ('easyadmin') }}">Administration</a>
+                <li class="nav-item     ">
+                    <a class="nav-link" href="{{ path ('easyadmin') }}"><i class="fa fa-user"></i>Administration</a>
                 </li>
                 {% elseif app.user %}
                     <li class="nav-item">

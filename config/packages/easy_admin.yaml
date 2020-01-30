@@ -16,7 +16,7 @@ easy_admin:
           list:
                actions: ['edit', 'search', 'delete', 'show']
           form:
-            title: 'Ajouter  un évenemnt'
+            title: 'Ajouter  un évenement'
             fields:
               - { property: 'name', type: 'text'}
               - { property: 'price', number: '%0.02f €'}
