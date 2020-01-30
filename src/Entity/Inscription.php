@@ -26,6 +26,11 @@ class Inscription
      */
     private $event;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $quantity;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -51,6 +56,18 @@ class Inscription
     public function setEvent(?Events $event): self
     {
         $this->event = $event;
+
+        return $this;
+    }
+
+    public function getQuantity(): ?string
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(string $quantity): self
+    {
+        $this->quantity = $quantity;
 
         return $this;
     }

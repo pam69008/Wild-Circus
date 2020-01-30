@@ -2,7 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Events;
+use App\Entity\Inscription;
 use App\Repository\EventsRepository;
+use App\Repository\InscriptionRepository;
+use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -46,7 +50,7 @@ class EventController extends AbstractController
 
         foreach ($panierData as $item) {
             $totalItem = $item['events']->getPrice() * $item['quantity'];
-            $total += $totalItem ;
+            $total += $totalItem;
         }
 
         return $this->render('card/index.html.twig', ['items' => $panierData, 'total' => $total
@@ -69,7 +73,7 @@ class EventController extends AbstractController
             $panier[$id] = 1;
         }
         $session->set('panier', $panier);
-        $this->addFlash('success', 'Article'. ' '. $id . ' ajouté avec succès !');
+        $this->addFlash('success', 'Article' . ' ' . $id . ' ajouté avec succès !');
 
         return $this->redirectToRoute("event");
     }
@@ -91,6 +95,34 @@ class EventController extends AbstractController
 
         return $this->redirectToRoute("card_index");
 
+    }
+
+    /**
+     * @Route("/panier/validate/", name="card_validate")
+     * @param SessionInterface $session
+     * @param EventsRepository $eventsRepository
+     * @return Response
+     */
+
+    public function validation(SessionInterface $session, EventsRepository $eventsRepository)
+    {
+        $panier = $session->get('panier', []);
+        $panierData = [];
+        $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+        foreach ($panier as $id => $quantity) {
+            $event = $eventsRepository->findBy(['id' => $id]);
+            $inscription = new Inscription();
+            $inscription->setUser($user);
+            $inscription->setQuantity($quantity);
+            $inscription->setEvent($event[0]);;
+            $em->persist($inscription);
+
+        }
+        $this->addFlash('succes', 'Validation confirmé');
+        $em->flush();
+        $this->get('session')->clear();
+        return $this->redirectToRoute("profil");
     }
 
 }
