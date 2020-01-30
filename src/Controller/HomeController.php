@@ -2,8 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Contact;
+use App\Form\ContactType;
+use App\Notification\ContactNotification;
 use App\Repository\TeamRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -21,6 +25,7 @@ class HomeController extends AbstractController
 
     /**
      * @Route("/team", name="team")
+     * @param TeamRepository $teamRepository
      * @return Response
      */
 
@@ -31,8 +36,23 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/event", name="event")
+     * @Route("/contact", name="contact")
+     * @param Request $request
+     * @param ContactNotification $notification
      * @return Response
      */
+    public function contact(Request $request, ContactNotification $notification): Response
+    {
+        $contact = new Contact();
+        $form = $this->createForm(ContactType::class, $contact);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $notification->notify($contact);
+            return $this->redirectToRoute('contact');
+        }
+        return $this->render('contact/index.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
 
 }

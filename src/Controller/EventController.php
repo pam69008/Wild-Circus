@@ -4,10 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Events;
 use App\Entity\Inscription;
+use App\Form\InscriptionType;
 use App\Repository\EventsRepository;
 use App\Repository\InscriptionRepository;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,6 +24,7 @@ class EventController extends AbstractController
     public function index(EventsRepository $eventsRepository)
     {
         $events = $eventsRepository->findAll();
+
         return $this->render('event/index.html.twig',
             ['events' => $events
 
@@ -67,13 +70,13 @@ class EventController extends AbstractController
     {
         $panier = $session->get('panier', []);
 
-        if (!empty($panier[$id])) {
-            $panier[$id]++;
-        } else {
-            $panier[$id] = 1;
-        }
-        $session->set('panier', $panier);
-        $this->addFlash('success', 'Article' . ' ' . $id . ' ajouté avec succès !');
+            if (!empty($panier[$id])) {
+                $panier[$id]++;
+            } else {
+                $panier[$id] = 1;
+            }
+            $session->set('panier', $panier);
+            $this->addFlash('success', 'Article' . ' ' . $id . ' ajouté avec succès !');
 
         return $this->redirectToRoute("event");
     }
@@ -117,9 +120,7 @@ class EventController extends AbstractController
             $inscription->setQuantity($quantity);
             $inscription->setEvent($event[0]);;
             $em->persist($inscription);
-
         }
-        $this->addFlash('succes', 'Validation confirmé');
         $em->flush();
         $this->get('session')->clear();
         return $this->redirectToRoute("profil");
