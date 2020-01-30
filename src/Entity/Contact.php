@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use phpDocumentor\Reflection\DocBlock\Tags\Property;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class Contact
 {

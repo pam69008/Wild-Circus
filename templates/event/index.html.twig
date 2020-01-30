@@ -10,7 +10,10 @@
                     <div class="card-body">
                         <div class="row py-3">
                             <div class="col-md-12">
-                                <h4 style="text-align: center">Nos différentes représentations</h4>
+                                <h2 class="text-center"><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+                                            class="fa fa-star"></i> Nos différentes représentations <i
+                                            class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+                                            class="fa fa-star"></i></h2>
                                 <div class="divider"></div>
                             </div>
 
@@ -19,11 +22,11 @@
 
                             {% for event in events %}
                                 <div class="col-md-3">
-                                    <div class="card mt-2">
-{#                                        <div class="card-img-top mt-2 ml-5"><img#}
-{#                                                    src="{{ ('images/boutique/'~boilie.imageName) | imagine_filter('picture') }}"#}
-{#                                                    style="width: 50%">#}
-{#                                        </div>#}
+                                    <div class="card mt-2 bg-transparent<">
+                                        {#                                        <div class="card-img-top mt-2 ml-5"><img#}
+                                        {#                                                    src="{{ ('images/boutique/'~boilie.imageName) | imagine_filter('picture') }}"#}
+                                        {#                                                    style="width: 50%">#}
+                                        {#                                        </div>#}
                                         <div class="card-body">
                                             <h5>{{ event.name }}</h5>
                                             <h6><i>({{ event.location }})</i></h6>
@@ -33,7 +36,8 @@
                                                 Voir plus
                                             </button>
                                             <a href="{{ path('card_add', {'id': event.id}) }}">
-                                                <button type="button" class="btn btn-outline-success btn-block btn-sm mt-2">
+                                                <button type="button"
+                                                        class="btn btn-outline-success btn-block btn-sm mt-2">
                                                     Reserver
                                                 </button>
                                             </a>
