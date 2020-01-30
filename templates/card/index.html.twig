@@ -2,54 +2,57 @@
 {% block title %}Mon panier{% endblock %}
 
 {% block body %}
-
+{{ dump() }}
     <div class="container">
-        <h1 style="margin-top: 10px"> Votre panier</h1>
-        {% if items | length > 0 %}
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Evenement</th>
-                    <th>Prix</th>
-                    <th>Quantité</th>
-                    <th>Total</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for item in items %}
+            <h1 style="margin-top: 10px"> Votre panier</h1>
+            {% if items | length > 0 %}
+                <table class="table">
+                    <thead>
                     <tr>
-                       <td>{{ item.events.name }}</td>
-                       <td>{{ item.events.price }} €</td>
-                       <td>{{ item.quantity  }}</td>
-                       <td>{{ item.events.price * item.quantity }} €</td>
-                       <td>
-                            <a href="{{ path('cart_remove', {'id': item.events.id}) }}" class="btn btn-danger btn-sm">
-                                <i class="fa fa-trash"></i>
-
-                            </a>
-                        </td>
+                        <th>Evenement</th>
+                        <th>Prix</th>
+                        <th>Quantité</th>
+                        <th>Total</th>
+                        <th></th>
                     </tr>
-                {% endfor %}
-                </tbody>
-                <tfoot>
-                <tr>
-                    <td colspan="3" class="text-right"> Total:</td>
-                    <td>{{ total }} € </td>
-                    <td></td>
-                </tr>
-                </tfoot>
-            </table>
-            {% if app.user %}
-                <a href="" class=" btn btn-success float-right"> Payer</a>
-            {% endif %}
-        {% else %}
-            <p> Oups, Votre panier est vide</p>
-            <a href="{{ path('event') }}" class=" btn btn-dark float-left"> Aller à la boutique </a>
-        {% endif %}
-        {% if not app.user %}
-            <a href="{{ path('app_register') }}" class="btn btn-dark float-right">Creer un compte</a>
-        {% endif %}
+                    </thead>
+                    <tbody>
+                    {% for item in items %}
+                        <tr>
+                            <td>{{ item.events.name }}</td>
+                            <td>{{ item.events.price }} €</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>{{ item.events.price * item.quantity }} €</td>
+                            <td>
+                                <a href="{{ path('cart_remove', {'id': item.events.id}) }}"
+                                   class="btn btn-danger btn-sm">
+                                    <i class="fa fa-trash"></i>
 
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="3" class="text-right"> Total:</td>
+                        <td>{{ total }} €</td>
+                        <td></td>
+                    </tr>
+                    </tfoot>
+                </table>
+                {% if app.user %}
+        <form method="post">
+            <a href="{{path('card_validate')}}" class=" btn btn-success float-right"> Payer</a>
+        </form>
+                {% endif %}
+            {% else %}
+                <p> Oups, Votre panier est vide</p>
+                <a href="{{ path('event') }}" class=" btn btn-dark float-left"> Aller à la boutique </a>
+            {% endif %}
+            {% if not app.user %}
+                <a href="{{ path('app_register') }}" class="btn btn-dark float-right">Creer un compte</a>
+            {% endif %}
     </div>
+
 {% endblock %}
