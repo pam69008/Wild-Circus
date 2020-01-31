@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
+  {% block title %}Validation achat{% endblock %}
 {% block body %}
+
 
     <div class="container">
         <h1 style="text-align: center; margin-bottom: 20px; margin-top: 20px"> Finalisez votre achat ici: <br>
@@ -17,7 +19,7 @@
                 <h6> Total </h6>
                 <hr>
                 {{ total }} € <br>
-                <i> LA commande sera livrée à l'adresse suivante: <br>
+                <i> La commande sera livrée à l'adresse suivante: <br>
                     <span>{{ user.address }} {{ user.code }} {{ user.city }} </span></i>
             </div>
         </div>
@@ -27,7 +29,7 @@
     <h4 style="text-align: center; margin-top: 20px"> Renseignez votre carte de crédit: </h4>
     <div class="row mt-4">
         <div class="col-sm-12 col-md-4 col-lg-4 offset-md-4 offset-lg-4">
-            <form action="{{ path('profil') }}" method="post" id="payment-form">
+            <form action="" method="post" id="payment-form">
                 <div class="form-row">
                     <label for="card-element">
                         Carte de crédit:

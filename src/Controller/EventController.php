@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Events;
 use App\Entity\Inscription;
 use App\Form\InscriptionType;
+use App\Notification\ContactNotification;
 use App\Repository\EventsRepository;
 use App\Repository\InscriptionRepository;
 use Doctrine\ORM\EntityManager;
@@ -115,14 +116,6 @@ class EventController extends AbstractController
         $panierData = [];
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
-        foreach ($panier as $id => $quantity) {
-            $event = $eventsRepository->findBy(['id' => $id]);
-            $inscription = new Inscription();
-            $inscription->setUser($user);
-            $inscription->setQuantity($quantity);
-            $inscription->setEvent($event[0]);;
-            $em->persist($inscription);
-        }
 
         foreach ($panier as $id => $quantity) {
             $panierData[] = [
@@ -138,6 +131,16 @@ class EventController extends AbstractController
         }
 
         if (!empty($_POST)) {
+            foreach ($panier as $id => $quantity) {
+                $event = $eventsRepository->findBy(['id' => $id]);
+                $inscription = new Inscription();
+                $inscription->setUser($user);
+                $inscription->setQuantity($quantity);
+                $inscription->setEvent($event[0]);;
+                $em->persist($inscription);
+            }
+            $em->flush();
+
             $token = $_POST['stripeToken'];
             \Stripe\Charge::create([
                 'amount' => $total * 100,
@@ -145,10 +148,9 @@ class EventController extends AbstractController
                 'description' => 'Paiement de'. ' '.  $user->getUsername(),
                 'source' => $token,
             ]);
-            $this->get('session')->clear();
-        }
-
-        $em->flush();
+           $this->get('session')->clear();
+           return $this->redirectToRoute('profil');
+            }
         return $this->render("card/payment.html.twig",['panier'=> $panier, 'user'=>$user, 'items' => $panierData, 'total' => $total]);
 
     }
