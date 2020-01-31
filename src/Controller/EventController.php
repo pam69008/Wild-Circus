@@ -105,11 +105,13 @@ class EventController extends AbstractController
      * @param SessionInterface $session
      * @param EventsRepository $eventsRepository
      * @return Response
+     * @throws \Stripe\Exception\ApiErrorException
      */
 
     public function validation(SessionInterface $session, EventsRepository $eventsRepository)
     {
         $panier = $session->get('panier', []);
+        \Stripe\Stripe::setApiKey('sk_test_ARTbSd0ifP24pwMsbDmHIjT000z6a99ftG');
         $panierData = [];
         $user = $this->getUser();
         $em = $this->getDoctrine()->getManager();
@@ -121,9 +123,34 @@ class EventController extends AbstractController
             $inscription->setEvent($event[0]);;
             $em->persist($inscription);
         }
+
+        foreach ($panier as $id => $quantity) {
+            $panierData[] = [
+                'produits' => $eventsRepository->find($id),
+                'quantity' => $quantity
+            ];
+        }
+        $total = 0;
+
+        foreach ($panierData as $item) {
+            $totalItem = $item['produits']->getPrice() * $item['quantity'];
+            $total += $totalItem;
+        }
+
+        if (!empty($_POST)) {
+            $token = $_POST['stripeToken'];
+            \Stripe\Charge::create([
+                'amount' => $total * 100,
+                'currency' => 'eur',
+                'description' => 'Paiement de'. ' '.  $user->getUsername(),
+                'source' => $token,
+            ]);
+            $this->get('session')->clear();
+        }
+
         $em->flush();
-        $this->get('session')->clear();
-        return $this->redirectToRoute("profil");
+        return $this->render("card/payment.html.twig",['panier'=> $panier, 'user'=>$user, 'items' => $panierData, 'total' => $total]);
+
     }
 
 }

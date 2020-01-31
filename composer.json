@@ -8,6 +8,7 @@
         "easycorp/easyadmin-bundle": "^2.3",
         "liip/imagine-bundle": "^2.3",
         "sensio/framework-extra-bundle": "^5.5",
+        "stripe/stripe-php": "^7.21",
         "symfony/asset": "4.4.*",
         "symfony/console": "4.4.*",
         "symfony/dotenv": "4.4.*",

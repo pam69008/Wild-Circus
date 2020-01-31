@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+    <div class="container">
+        <h1 style="text-align: center; margin-bottom: 20px; margin-top: 20px"> Finalisez votre achat ici: <br>
+            {{ user.firstname }} {{ user.lastname }}:
+        </h1>
+        <h2 style="text-align: center"> Votre facture:</h2>
+        <div class="card bg-light">
+            <div class="card-body" style="text-align: center">
+                {% for item in items %}
+                    {{ item.produits.name }} => {{ item.quantity  }} ticket <br>
+
+                {% endfor %}
+            </div>
+            <div class="card-footer" style="text-align: center">
+                <h6> Total </h6>
+                <hr>
+                {{ total }} € <br>
+                <i> LA commande sera livrée à l'adresse suivante: <br>
+                    <span>{{ user.address }} {{ user.code }} {{ user.city }} </span></i>
+            </div>
+        </div>
+    </div>
+
+
+    <h4 style="text-align: center; margin-top: 20px"> Renseignez votre carte de crédit: </h4>
+    <div class="row mt-4">
+        <div class="col-sm-12 col-md-4 col-lg-4 offset-md-4 offset-lg-4">
+            <form action="{{ path('profil') }}" method="post" id="payment-form">
+                <div class="form-row">
+                    <label for="card-element">
+                        Carte de crédit:
+                    </label>
+                    <div id="card-element" style="width: 100%">
+
+                    </div>
+
+                    <!-- Used to display Element errors. -->
+                    <div id="card-errors" role="alert"></div>
+                </div>
+
+                <button class="btn btn-success mt-2 float-right ">Payer</button>
+            </form>
+        </div>
+    </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        var stripe = Stripe('pk_test_12qsBeyl64vh2MiAPI05apT700WzbZtdno');
+        var elements = stripe.elements();
+        var style = {
+            base: {
+                fontSize: '12px',
+                width: '100%'
+            },
+        };
+        var card = elements.create('card', {style: style});
+        card.mount('#card-element');
+
+
+        var form = document.getElementById('payment-form');
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            stripe.createToken(card).then(function (result) {
+                if (result.error) {
+                    var errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = result.error.message;
+                } else {
+                    stripeTokenHandler(result.token);
+                }
+            });
+        });
+
+        function stripeTokenHandler(token) {
+            var form = document.getElementById('payment-form');
+            var hiddenInput = document.createElement('input');
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'stripeToken');
+            hiddenInput.setAttribute('value', token.id);
+            form.appendChild(hiddenInput);
+            form.submit();
+        }
+    </script>
+{% endblock %}
